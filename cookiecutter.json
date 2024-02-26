@@ -1,0 +1,6 @@
+{
+  "project_slug": "aspnetcore-backend-template",
+  "project_name": "{{ cookiecutter.project_slug }}",
+  "development_port": "5210",
+  "development_port_ssl": "7114"
+}
