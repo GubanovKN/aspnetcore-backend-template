@@ -12,9 +12,12 @@ var builder = WebApplication.CreateBuilder(args);
     var logging = builder.Logging;
 
     logging.AddFilter("Microsoft.EntityFrameworkCore.Database.Command", LogLevel.Warning);
-    
-    var connection = config.GetConnectionString("DefaultConnection");
-    services.AddDbContext<DataContext>(options => options.UseNpgsql(connection));
+
+    var databaseConnection = config.GetConnectionString("DefaultConnection");
+    services.AddDbContext<DataContext>(options => options.UseNpgsql(databaseConnection));
+
+    var redisConnection = config.GetConnectionString("RedisConnection");
+    services.AddStackExchangeRedisCache(options => { options.Configuration = redisConnection; });
 
     services.AddControllers().AddJsonOptions(x =>
         x.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull);
@@ -25,11 +28,12 @@ var builder = WebApplication.CreateBuilder(args);
         x.BufferBody = true;
         x.ValueCountLimit = int.MaxValue;
     });
-    
+
     services.AddSwaggerGen();
 
     services.AddScoped<IJwtUtils, JwtUtils>();
     services.AddScoped<ISendMailService, SendMailService>();
+    services.AddScoped<IAuthService, AuthService>();
     services.AddScoped<IUserService, UserService>();
 }
 

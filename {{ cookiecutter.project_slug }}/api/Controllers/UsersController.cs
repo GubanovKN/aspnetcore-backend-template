@@ -9,10 +9,10 @@ namespace api.Controllers;
 [Authorize]
 [ApiController]
 [Route("[controller]")]
-public class UsersController(IUserService userService) : ControllerBase
+public class UsersController(IAuthService authService, IUserService userService) : ControllerBase
 {
     #region Auth
-    
+
     [AllowAnonymous]
     [HttpPost("register")]
     public IActionResult Register(RegisterRequest model)
@@ -21,18 +21,18 @@ public class UsersController(IUserService userService) : ControllerBase
         {
             return BadRequest(new { message = "Не заполнена фамилия" });
         }
-        
+
         if (string.IsNullOrWhiteSpace(model.FirstName))
         {
             return BadRequest(new { message = "Не заполнено имя" });
         }
-        
+
         if (string.IsNullOrWhiteSpace(model.Email))
         {
             return BadRequest(new { message = "Не заполнен Email" });
         }
 
-        userService.Register(model);
+        authService.Register(model);
 
         return Ok();
     }
@@ -41,7 +41,7 @@ public class UsersController(IUserService userService) : ControllerBase
     [HttpPost("authenticate")]
     public IActionResult Authenticate(AuthenticateRequest model)
     {
-        var response = userService.Authenticate(model, IpAddress());
+        var response = authService.Authenticate(model, IpAddress());
         SetTokenCookie(response.RefreshToken);
         return Ok(response);
     }
@@ -51,11 +51,11 @@ public class UsersController(IUserService userService) : ControllerBase
     public IActionResult RefreshToken()
     {
         var refreshToken = Request.Cookies["refreshToken"];
-        var response = userService.RefreshToken(refreshToken, IpAddress());
+        var response = authService.RefreshToken(refreshToken, IpAddress());
         SetTokenCookie(response.RefreshToken);
         return Ok(response);
     }
-    
+
     [AllowAnonymous]
     [HttpPost("forget-password")]
     public IActionResult ForgetPassword(ForgetPasswordRequest model)
@@ -65,7 +65,7 @@ public class UsersController(IUserService userService) : ControllerBase
             return BadRequest(new { message = "Не заполнен Email" });
         }
 
-        userService.ForgetPassword(model);
+        authService.ForgetPassword(model);
 
         return Ok();
     }
@@ -85,7 +85,7 @@ public class UsersController(IUserService userService) : ControllerBase
         if (string.IsNullOrEmpty(token))
             return BadRequest(new { message = "Token is required" });
 
-        userService.RevokeToken(token, IpAddress());
+        authService.RevokeToken(token, IpAddress());
         return Ok(new { message = "Token revoked" });
     }
 
@@ -215,7 +215,7 @@ public class UsersController(IUserService userService) : ControllerBase
         }
         else if (HttpContext.Connection.RemoteIpAddress != null)
         {
-            address = HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();   
+            address = HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
         }
 
         return address ?? "0.0.0.0";

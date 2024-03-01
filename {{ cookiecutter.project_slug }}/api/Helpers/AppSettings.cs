@@ -4,7 +4,7 @@ public class AppSettings
 {
     public string Secret { get; set; } = string.Empty;
     public int RefreshTokenTTL { get; set; }
-    public ServerMail ServerMail { get; set; } = new ();
+    public ServerMail ServerMail { get; set; } = new();
 }
 
 public class ServerMail
