@@ -9,3 +9,54 @@
 - [ ] OAuth
 
 Additional tasks will be added in the future
+
+## Docker compose depends
+```
+version: '3.9'
+services:
+  db:
+    image: postgres:13.1
+    container_name: postgres_provider
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=askede12AS!
+    ports:
+      - "45432:5432"
+    networks:
+      - depends_network
+    restart: always
+    volumes:
+       - ./postgres-data:/var/lib/postgresql/data
+  nginx-proxy-manager:
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '443:443'
+      - '81:81'
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+    networks:
+      - depends_network
+  npm-monitoring:
+    image: xavierh/goaccess-for-nginxproxymanager:latest
+    restart: always
+    environment:
+        - TZ=Asia/Yekaterinburg
+        - SKIP_ARCHIVED_LOGS=True
+        - EXCLUDE_IPS=127.0.0.1
+        - LOG_TYPE=NPM
+    ports:
+        - '82:7880'
+    volumes:
+        - ./data/logs:/opt/log
+    networks:
+      - depends_network
+networks:
+  depends_network:
+    name: depends_network
+    driver: bridge
+```
+### Important
+    - The database port is open, it is better to remove this option when creating a working version
