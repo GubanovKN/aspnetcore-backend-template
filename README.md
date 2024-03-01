@@ -74,3 +74,6 @@ networks:
 ### Important in production
   - The database port and cache port is open, it is better to remove this option
   - The database user, password and cache password change to custom
+### Connection strings
+  - PostgreSQL "Host={host};Port={port};Database={name_db};Username={user_name};Password={user_pass}"
+  - Redis "{host}:{port},password={pass},DefaultDatabase={db_number}" or "redis://{user_name}:{user_pass}@{host}:{port}/{db_number}" (Default user - default)
