@@ -27,7 +27,7 @@ services:
     restart: always
     volumes:
        - ./postgres-data:/var/lib/postgresql/data
-  redis:
+  cache:
     image: redis/redis-stack-server:latest
     container_name: redis_provider
     restart: always
@@ -71,5 +71,6 @@ networks:
     name: depends_network
     driver: bridge
 ```
-### Important
-  - The database port is open, it is better to remove this option when creating a working version
+### Important in production
+  - The database port and cache port is open, it is better to remove this option
+  - The database user, password and cache password change to custom
