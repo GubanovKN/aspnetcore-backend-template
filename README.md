@@ -19,7 +19,7 @@ services:
     container_name: postgres_provider
     environment:
       - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=askede12AS!
+      - POSTGRES_PASSWORD=root
     ports:
       - "45432:5432"
     networks:
@@ -27,6 +27,19 @@ services:
     restart: always
     volumes:
        - ./postgres-data:/var/lib/postgresql/data
+  redis:
+    image: redis/redis-stack-server:latest
+    container_name: redis_provider
+    restart: always
+    ports:
+      - "46379:6379"
+    volumes:
+      - ./redis-data:/var/lib/redis
+    environment:
+      - REDIS_REPLICATION_MODE=master
+      - REDIS_ARGS=--save 20 1 --loglevel warning --requirepass root
+    networks:
+      - depends_network
   nginx-proxy-manager:
     image: 'jc21/nginx-proxy-manager:latest'
     restart: unless-stopped
@@ -59,4 +72,4 @@ networks:
     driver: bridge
 ```
 ### Important
-    - The database port is open, it is better to remove this option when creating a working version
+  - The database port is open, it is better to remove this option when creating a working version
