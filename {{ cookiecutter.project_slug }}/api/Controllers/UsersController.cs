@@ -14,6 +14,31 @@ public class UsersController(IAuthService authService, IUserService userService)
     #region Auth
 
     [AllowAnonymous]
+    [HttpPost("sendcodebyemail")]
+    public async Task<IActionResult> SendCodeByEmail(SendCodeRequest model)
+    {
+        var result = await authService.SendCodeByEmail(model.Value);
+        return Ok(result);
+    }
+
+    [AllowAnonymous]
+    [HttpPost("sendcodebyphone")]
+    public async Task<IActionResult> SendCodeByPhone(SendCodeRequest model)
+    {
+        
+        var result = await authService.SendCodeByPhone(model.Value);
+        return Ok(result);
+    }
+
+    [AllowAnonymous]
+    [HttpPost("checkcode")]
+    public async Task<IActionResult> CheckCode(CheckCodeRequest model)
+    {
+        var token = await authService.CheckCode(model.Key, model.Code);
+        return Ok(new { token = token });
+    }
+
+    [AllowAnonymous]
     [HttpPost("register")]
     public IActionResult Register(RegisterRequest model)
     {

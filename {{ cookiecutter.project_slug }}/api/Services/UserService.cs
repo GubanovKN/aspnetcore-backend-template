@@ -12,6 +12,7 @@ public interface IUserService
 {
     User GetById(Guid id);
     User GetByEmail(string email);
+    User GetByPhone(string phone);
     IEnumerable<User> GetAll();
     void Add(AddRequest model);
     void Edit(EditRequest model);
@@ -44,6 +45,27 @@ public class UserService(DataContext context) : IUserService
     {
         var user = context.Users.AsEnumerable().SingleOrDefault(p =>
             string.Equals(p.Email, email, StringComparison.CurrentCultureIgnoreCase));
+        if (user != null)
+        {
+            var refreshTokens = context.RefreshTokens
+                .Where(p => p.UserId == user.Id).ToList();
+            user.RefreshTokens = refreshTokens;
+
+            var roles = context.UserRoles
+                .Where(p => p.UserId == user.Id).Include(p => p.Role).ToList();
+            user.UserRoles = roles;
+        }
+        else
+        {
+            throw new AppException("User not found");
+        }
+
+        return user;
+    }
+    public User GetByPhone(string phone)
+    {
+        var user = context.Users.AsEnumerable().SingleOrDefault(p =>
+            string.Equals(p.Phone, phone, StringComparison.CurrentCultureIgnoreCase));
         if (user != null)
         {
             var refreshTokens = context.RefreshTokens

@@ -6,7 +6,7 @@ namespace api.Helpers;
 public sealed class DataContext : DbContext
 {
     private readonly string? _connectionString;
-
+    
     public DbSet<User> Users { get; set; } = null!;
     public DbSet<RefreshToken> RefreshTokens { get; set; } = null!;
     public DbSet<Role> Roles { get; set; } = null!;

@@ -33,6 +33,7 @@ var builder = WebApplication.CreateBuilder(args);
 
     services.AddScoped<IJwtUtils, JwtUtils>();
     services.AddScoped<ISendMailService, SendMailService>();
+    services.AddScoped<ISendPhoneService, SendPhoneService>();
     services.AddScoped<IAuthService, AuthService>();
     services.AddScoped<IUserService, UserService>();
 }
