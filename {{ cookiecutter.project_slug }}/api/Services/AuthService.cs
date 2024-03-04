@@ -14,7 +14,7 @@ public interface IAuthService
     Task<SendCodeResponse> SendCodeByEmail(string email);
     Task<SendCodeResponse> SendCodeByPhone(string phone);
     Task<string> CheckCode(string key, string code);
-    void Register(RegisterRequest model);
+    RegisterResponse Register(RegisterRequest model, string ipAddress);
     AuthenticateResponse Authenticate(AuthenticateRequest model, string ipAddress);
     AuthenticateResponse RefreshToken(string? token, string ipAddress);
     void ForgetPassword(ForgetPasswordRequest model);
@@ -32,7 +32,7 @@ public class AuthService(
 {
     private readonly AppSettings _appSettings = appSettings.Value;
 
-    private const string regexPhone = @"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$";
+    private const string regexPhone = @"^([\+]?[1-9]{1})[1-9][0-9]{9}$";
 
     public async Task<SendCodeResponse> SendCodeByEmail(string email)
     {
@@ -118,7 +118,7 @@ public class AuthService(
         return jwtUtils.GenerateJwtData(key);
     }
 
-    public void Register(RegisterRequest model)
+    public RegisterResponse Register(RegisterRequest model, string ipAddress)
     {
         User? user;
 
@@ -189,45 +189,48 @@ public class AuthService(
         }
 
 
-        if (user == null)
-        {
-            var role = context.Roles.FirstOrDefault(p => p.Name == "User");
-
-            if (role != null)
-            {
-                var salt = new Encryption().GetSalt();
-
-                user = new User
-                {
-                    LastName = model.LastName,
-                    MiddleName = model.MiddleName,
-                    FirstName = model.FirstName,
-                    Phone = model.Phone,
-                    Email = model.Email,
-                    Salt = salt,
-                    PasswordHash = model.Password != null ? Encryption.GetHash(model.Password, salt) : null
-                };
-
-                var result = context.Users.Add(user);
-                context.SaveChanges();
-
-                context.UserRoles.Add(new UserRole
-                {
-                    UserId = result.Entity.Id,
-                    RoleId = role.Id
-                });
-
-                context.SaveChanges();
-            }
-            else
-            {
-                throw new AppException("Base role not found");
-            }
-        }
-        else
+        if (user != null)
         {
             throw new AppException("User already exists");
         }
+
+        var role = context.Roles.FirstOrDefault(p => p.Name == "User");
+
+        if (role == null)
+        {
+            throw new AppException("Base role not found");
+        }
+
+        var salt = new Encryption().GetSalt();
+
+        user = new User
+        {
+            LastName = model.LastName,
+            MiddleName = model.MiddleName,
+            FirstName = model.FirstName,
+            Phone = model.Phone,
+            Email = model.Email,
+            Salt = salt,
+            PasswordHash = !string.IsNullOrWhiteSpace(model.Password) ? Encryption.GetHash(model.Password, salt) : null
+        };
+
+        var result = context.Users.Add(user);
+        context.SaveChanges();
+
+        context.UserRoles.Add(new UserRole
+        {
+            UserId = result.Entity.Id,
+            RoleId = role.Id
+        });
+        context.SaveChanges();
+
+        var jwtToken = jwtUtils.GenerateJwtUser(user);
+        var refreshToken = jwtUtils.GenerateRefreshToken(ipAddress);
+        refreshToken.UserId = user.Id;
+        context.RefreshTokens.Add(refreshToken);
+        context.SaveChanges();
+
+        return new RegisterResponse(user, jwtToken, refreshToken.Token, role);
     }
 
     public AuthenticateResponse Authenticate(AuthenticateRequest model, string ipAddress)
@@ -310,7 +313,7 @@ public class AuthService(
         {
             user = userService.GetByPhone(PhoneNormalize(username));
         }
-        
+
         if (user == null)
         {
             throw new AppException("Incorrect username or code");
@@ -491,7 +494,7 @@ public class AuthService(
 
         var regex = new Regex(@"[^\d]");
         phone = regex.Replace(phone, "");
-        const string format = "###-###-####";
+        const string format = "#-###-###-####";
         phone = Convert.ToInt64(phone).ToString(format);
         return phone;
     }

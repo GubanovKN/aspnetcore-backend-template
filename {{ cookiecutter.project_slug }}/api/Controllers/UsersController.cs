@@ -52,14 +52,9 @@ public class UsersController(IAuthService authService, IUserService userService)
             return BadRequest(new { message = "Не заполнено имя" });
         }
 
-        if (string.IsNullOrWhiteSpace(model.Email))
-        {
-            return BadRequest(new { message = "Не заполнен Email" });
-        }
-
-        authService.Register(model);
-
-        return Ok();
+        var response = authService.Register(model, IpAddress());
+        SetTokenCookie(response.RefreshToken);
+        return Ok(response);
     }
 
     [AllowAnonymous]

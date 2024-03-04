@@ -32,9 +32,9 @@ public class Encryption
 
     public string GetRandomPassword(int length)
     {
-        const string valid = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-        StringBuilder res = new StringBuilder();
-        Random rnd = new Random();
+        const string valid = "1234567890";
+        var res = new StringBuilder();
+        var rnd = new Random();
         while (0 < length--)
         {
             res.Append(valid[rnd.Next(valid.Length)]);
