@@ -24,7 +24,7 @@
       "dotnetRunMessages": true,
       "launchBrowser": true,
       "launchUrl": "swagger",
-      "applicationUrl": "http://localhost:5087",
+      "applicationUrl": "http://localhost:{{ cookiecutter.development_port }}",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -34,7 +34,7 @@
       "dotnetRunMessages": true,
       "launchBrowser": true,
       "launchUrl": "swagger",
-      "applicationUrl": "http://localhost:5087",
+      "applicationUrl": "http://localhost:{{ cookiecutter.production_port }}",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Production"
       }
