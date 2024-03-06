@@ -1,0 +1,2183 @@
+{
+	"info": {
+		"_postman_id": "c69df219-a598-461f-b45c-a35db6f42702",
+		"name": "api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29471074"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "SendCodeByEmail",
+					"item": [
+						{
+							"name": "/Users/sendcodebyemail",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.environment.set('email', JSON.parse(pm.request.body.raw).value);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"value\": \"{{$randomEmail}}\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/Users/sendcodebyemail",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"Users",
+										"sendcodebyemail"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"value\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/Users/sendcodebyemail",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"Users",
+												"sendcodebyemail"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "CheckCodeEmail",
+					"item": [
+						{
+							"name": "/Users/checkcode",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let test = pm.response.json();",
+											"console.log(test);",
+											"pm.environment.set(\"emailToken\", test.token);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.set(\"emailCode\", '074715');"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"key\": \"{{email}}\",\n  \"code\": \"{{emailCode}}\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/Users/checkcode",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"Users",
+										"checkcode"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"key\": \"<string>\",\n  \"code\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/Users/checkcode",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"Users",
+												"checkcode"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "SendCodeByPhone",
+					"item": [
+						{
+							"name": "/Users/sendcodebyphone",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.environment.set('phone', JSON.parse(pm.request.body.raw).value);",
+											"console.log(JSON.parse(pm.request.body.raw).value)"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.set('phone', \"+7\" + Math.random().toString().slice(2, 12));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"value\": \"{{phone}}\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/Users/sendcodebyphone",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"Users",
+										"sendcodebyphone"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"value\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/Users/sendcodebyphone",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"Users",
+												"sendcodebyphone"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "CheckCodePhone",
+					"item": [
+						{
+							"name": "/Users/checkcode",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.set(\"phoneCode\", '141035');"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let test = pm.response.json();",
+											"console.log(test);",
+											"pm.environment.set(\"phoneToken\", test.token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"key\": \"{{phone}}\",\n  \"code\": \"{{phoneCode}}\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/Users/checkcode",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"Users",
+										"checkcode"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"key\": \"<string>\",\n  \"code\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/Users/checkcode",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"Users",
+												"checkcode"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Register All",
+					"item": [
+						{
+							"name": "/Users/register Token",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let body = pm.response.json();",
+											"console.log(body);",
+											"pm.environment.set(\"accessToken\", body.token);",
+											"pm.environment.set(\"refreshToken\", pm.cookies.get('refreshToken'))"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"type\": \"all\",\n  \"lastName\": \"{{$randomLastName}}\",\n  \"firstName\": \"{{$randomFirstName}}\",\n  \"middleName\": \"{{$randomFirstName}}\",\n  \"email\": \"{{email}}\",\n  \"emailToken\": \"{{emailToken}}\",\n  \"phone\": \"{{phone}}\",\n  \"phoneToken\": \"{{phoneToken}}\",\n  \"password\": \"{{password}}\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/Users/register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"Users",
+										"register"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"type\": \"<string>\",\n  \"lastName\": \"<string>\",\n  \"firstName\": \"<string>\",\n  \"middleName\": \"<string>\",\n  \"email\": \"<string>\",\n  \"emailToken\": \"<string>\",\n  \"phone\": \"<string>\",\n  \"phoneToken\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/Users/register",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"Users",
+												"register"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "/Users/register Password",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let body = pm.response.json();",
+											"console.log(body);",
+											"pm.environment.set(\"accessToken\", body.token);",
+											"pm.environment.set(\"refreshToken\", pm.cookies.get('refreshToken'))"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"type\": \"all\",\n  \"lastName\": \"{{$randomLastName}}\",\n  \"firstName\": \"{{$randomFirstName}}\",\n  \"middleName\": \"{{$randomFirstName}}\",\n  \"email\": \"{{email}}\",\n  \"emailToken\": \"{{emailToken}}\",\n  \"phone\": \"{{phone}}\",\n  \"phoneToken\": \"{{phoneToken}}\",\n  \"password\": \"{{password}}\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/Users/register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"Users",
+										"register"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"type\": \"<string>\",\n  \"lastName\": \"<string>\",\n  \"firstName\": \"<string>\",\n  \"middleName\": \"<string>\",\n  \"email\": \"<string>\",\n  \"emailToken\": \"<string>\",\n  \"phone\": \"<string>\",\n  \"phoneToken\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/Users/register",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"Users",
+												"register"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Register Email",
+					"item": [
+						{
+							"name": "/Users/register Token",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let body = pm.response.json();",
+											"console.log(body);",
+											"pm.environment.set(\"accessToken\", body.token);",
+											"pm.environment.set(\"refreshToken\", pm.cookies.get('refreshToken'))"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"type\": \"email\",\n    \"lastName\": \"{{$randomLastName}}\",\n    \"firstName\": \"{{$randomFirstName}}\",\n    \"middleName\": \"{{$randomFirstName}}\",\n    \"email\": \"{{email}}\",\n    \"emailToken\": \"{{emailToken}}\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/Users/register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"Users",
+										"register"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"type\": \"<string>\",\n  \"lastName\": \"<string>\",\n  \"firstName\": \"<string>\",\n  \"middleName\": \"<string>\",\n  \"email\": \"<string>\",\n  \"emailToken\": \"<string>\",\n  \"phone\": \"<string>\",\n  \"phoneToken\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/Users/register",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"Users",
+												"register"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "/Users/register Password",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let body = pm.response.json();",
+											"console.log(body);",
+											"pm.environment.set(\"accessToken\", body.token);",
+											"pm.environment.set(\"refreshToken\", pm.cookies.get('refreshToken'))"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"type\": \"email\",\n  \"lastName\": \"{{$randomLastName}}\",\n  \"firstName\": \"{{$randomFirstName}}\",\n  \"middleName\": \"{{$randomFirstName}}\",\n  \"email\": \"{{email}}\",\n  \"emailToken\": \"{{emailToken}}\",\n  \"password\": \"{{password}}\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/Users/register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"Users",
+										"register"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"type\": \"<string>\",\n  \"lastName\": \"<string>\",\n  \"firstName\": \"<string>\",\n  \"middleName\": \"<string>\",\n  \"email\": \"<string>\",\n  \"emailToken\": \"<string>\",\n  \"phone\": \"<string>\",\n  \"phoneToken\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/Users/register",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"Users",
+												"register"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Register Phone",
+					"item": [
+						{
+							"name": "/Users/register Token",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let body = pm.response.json();",
+											"console.log(body);",
+											"pm.environment.set(\"accessToken\", body.token);",
+											"pm.environment.set(\"refreshToken\", pm.cookies.get('refreshToken'))"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"type\": \"phone\",\n  \"lastName\": \"{{$randomLastName}}\",\n  \"firstName\": \"{{$randomFirstName}}\",\n  \"middleName\": \"{{$randomFirstName}}\",\n  \"phone\": \"{{phone}}\",\n  \"phoneToken\": \"{{phoneToken}}\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/Users/register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"Users",
+										"register"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"type\": \"<string>\",\n  \"lastName\": \"<string>\",\n  \"firstName\": \"<string>\",\n  \"middleName\": \"<string>\",\n  \"email\": \"<string>\",\n  \"emailToken\": \"<string>\",\n  \"phone\": \"<string>\",\n  \"phoneToken\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/Users/register",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"Users",
+												"register"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "/Users/register Password",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let body = pm.response.json();",
+											"console.log(body);",
+											"pm.environment.set(\"accessToken\", body.token);",
+											"pm.environment.set(\"refreshToken\", pm.cookies.get('refreshToken'))"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"type\": \"phone\",\n  \"lastName\": \"{{$randomLastName}}\",\n  \"firstName\": \"{{$randomFirstName}}\",\n  \"middleName\": \"{{$randomFirstName}}\",\n  \"phone\": \"{{phone}}\",\n  \"phoneToken\": \"{{phoneToken}}\",\n  \"password\": \"{{password}}\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/Users/register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"Users",
+										"register"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"type\": \"<string>\",\n  \"lastName\": \"<string>\",\n  \"firstName\": \"<string>\",\n  \"middleName\": \"<string>\",\n  \"email\": \"<string>\",\n  \"emailToken\": \"<string>\",\n  \"phone\": \"<string>\",\n  \"phoneToken\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/Users/register",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"Users",
+												"register"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Auth Token",
+					"item": [
+						{
+							"name": "/Users/authenticate Email",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let body = pm.response.json();",
+											"console.log(body);",
+											"pm.environment.set(\"accessToken\", body.token);",
+											"pm.environment.set(\"refreshToken\", pm.cookies.get('refreshToken'))"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"password\": \"{{emailToken}}\",\n  \"type\": \"token\",\n  \"username\": \"{{email}}\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/Users/authenticate",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"Users",
+										"authenticate"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"password\": \"<string>\",\n  \"type\": \"<string>\",\n  \"username\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/Users/authenticate",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"Users",
+												"authenticate"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "/Users/authenticate Phone",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let body = pm.response.json();",
+											"console.log(body);",
+											"pm.environment.set(\"accessToken\", body.token);",
+											"pm.environment.set(\"refreshToken\", pm.cookies.get('refreshToken'))"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"password\": \"{{phoneToken}}\",\n  \"type\": \"token\",\n  \"username\": \"{{phone}}\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/Users/authenticate",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"Users",
+										"authenticate"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"password\": \"<string>\",\n  \"type\": \"<string>\",\n  \"username\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/Users/authenticate",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"Users",
+												"authenticate"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Auth Password",
+					"item": [
+						{
+							"name": "/Users/authenticate Email",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let body = pm.response.json();",
+											"console.log(body);",
+											"pm.environment.set(\"accessToken\", body.token);",
+											"pm.environment.set(\"refreshToken\", pm.cookies.get('refreshToken'))"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"password\": \"{{password}}\",\n  \"type\": \"password\",\n  \"username\": \"{{email}}\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/Users/authenticate",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"Users",
+										"authenticate"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"password\": \"<string>\",\n  \"type\": \"<string>\",\n  \"username\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/Users/authenticate",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"Users",
+												"authenticate"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "/Users/authenticate Phone",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let body = pm.response.json();",
+											"console.log(body);",
+											"pm.environment.set(\"accessToken\", body.token);",
+											"pm.environment.set(\"refreshToken\", pm.cookies.get('refreshToken'))"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"password\": \"{{password}}\",\n  \"type\": \"password\",\n  \"username\": \"{{phone}}\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/Users/authenticate",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"Users",
+										"authenticate"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"password\": \"<string>\",\n  \"type\": \"<string>\",\n  \"username\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/Users/authenticate",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"Users",
+												"authenticate"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "OAuthGoogle",
+					"item": [
+						{
+							"name": "/Users/authenticate-google",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let body = pm.response.json();",
+											"console.log(body);",
+											"pm.environment.set(\"accessToken\", body.token);",
+											"pm.environment.set(\"refreshToken\", pm.cookies.get('refreshToken'))"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"code\": \"{{googleCode}}\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/Users/authenticate-google",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"Users",
+										"authenticate-google"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"code\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/Users/authenticate-google",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"Users",
+												"authenticate-google"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "ForgetPassword",
+					"item": [
+						{
+							"name": "/Users/forget-password Email",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"{{email}}\",\n  \"token\": \"{{emailToken}}\",\n  \"newPassword\": \"{{newPassword}}\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/Users/forget-password",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"Users",
+										"forget-password"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"emailToken\": \"<string>\",\n  \"newPassword\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/Users/forget-password",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"Users",
+												"forget-password"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "/Users/forget-password Phone",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"{{phone}}\",\n  \"token\": \"{{phoneToken}}\",\n  \"newPassword\": \"{{newPassword}}\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/Users/forget-password",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"Users",
+										"forget-password"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"emailToken\": \"<string>\",\n  \"newPassword\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/Users/forget-password",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"Users",
+												"forget-password"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "RefreshToken",
+					"item": [
+						{
+							"name": "/Users/refresh-token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let body = pm.response.json();",
+											"console.log(body);",
+											"pm.environment.set(\"accessToken\", body.token);",
+											"pm.environment.set(\"refreshToken\", pm.cookies.get('refreshToken'))"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/Users/refresh-token",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"Users",
+										"refresh-token"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/Users/refresh-token",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"Users",
+												"refresh-token"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "RefreshTokens",
+					"item": [
+						{
+							"name": "/Users/refresh-tokens",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/Users/refresh-tokens",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"Users",
+										"refresh-tokens"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/Users/:id/refresh-tokens",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"Users",
+												":id",
+												"refresh-tokens"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Me",
+					"item": [
+						{
+							"name": "/Users/:id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/Users/me",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"Users",
+										"me"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/Users/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"Users",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "GetById",
+					"item": [
+						{
+							"name": "/Users/:id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/Users/{{userId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"Users",
+										"{{userId}}"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/Users/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"Users",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Logout",
+					"item": [
+						{
+							"name": "/Users/revoke-token",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"token\": \"{{refreshToken}}\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/Users/revoke-token",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"Users",
+										"revoke-token"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"token\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/Users/revoke-token",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"Users",
+												"revoke-token"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "GetAllUsers",
+					"item": [
+						{
+							"name": "/Users/all",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let body = pm.response.json();",
+											"console.log(body);",
+											"pm.environment.set(\"userId\", body[0].id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/Users/all",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"Users",
+										"all"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/Users/all",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"Users",
+												"all"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Add",
+					"item": [
+						{
+							"name": "/Users/add",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"lastName\": \"<string>\",\n  \"firstName\": \"<string>\",\n  \"middleName\": \"<string>\",\n  \"email\": \"<string>\",\n  \"password\": \"<string>\",\n  \"roles\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ]\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/Users/add",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"Users",
+										"add"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"lastName\": \"<string>\",\n  \"firstName\": \"<string>\",\n  \"middleName\": \"<string>\",\n  \"email\": \"<string>\",\n  \"password\": \"<string>\",\n  \"roles\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ]\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/Users/add",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"Users",
+												"add"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Edit",
+					"item": [
+						{
+							"name": "/Users/edit",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": \"<uuid>\",\n  \"lastName\": \"<string>\",\n  \"firstName\": \"<string>\",\n  \"middleName\": \"<string>\",\n  \"email\": \"<string>\",\n  \"password\": \"<string>\",\n  \"roles\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"isDismissed\": \"<boolean>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/Users/edit",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"Users",
+										"edit"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"id\": \"<uuid>\",\n  \"lastName\": \"<string>\",\n  \"firstName\": \"<string>\",\n  \"middleName\": \"<string>\",\n  \"email\": \"<string>\",\n  \"password\": \"<string>\",\n  \"roles\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"isDismissed\": \"<boolean>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/Users/edit",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"Users",
+												"edit"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{accessToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "localhost:5087"
+		},
+		{
+			"key": "email",
+			"value": "test@test.com",
+			"type": "string"
+		},
+		{
+			"key": "emailCode",
+			"value": "123456",
+			"type": "string"
+		},
+		{
+			"key": "emailToken",
+			"value": "test",
+			"type": "string"
+		},
+		{
+			"key": "phone",
+			"value": "+79995554433",
+			"type": "string"
+		},
+		{
+			"key": "phoneCode",
+			"value": "123456",
+			"type": "string"
+		},
+		{
+			"key": "phoneToken",
+			"value": "test",
+			"type": "string"
+		},
+		{
+			"key": "password",
+			"value": "123456",
+			"type": "string"
+		},
+		{
+			"key": "newPassword",
+			"value": "000000",
+			"type": "string"
+		},
+		{
+			"key": "userId",
+			"value": "test",
+			"type": "string"
+		},
+		{
+			"key": "accessToken",
+			"value": "test",
+			"type": "string"
+		},
+		{
+			"key": "refreshToken",
+			"value": "test",
+			"type": "string"
+		},
+		{
+			"key": "googleCode",
+			"value": "test",
+			"type": "string"
+		}
+	]
+}

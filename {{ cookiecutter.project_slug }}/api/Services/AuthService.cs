@@ -34,6 +34,8 @@ public class AuthService(
 
     public async Task<SendCodeResponse> SendCodeByEmail(string email)
     {
+        //TODO - GET TIME EXPIRE CODE OR REFRESH TIME EXPIRE
+
         email = Normalize.Email(email);
         var code = new Encryption().GetRandomPassword(6);
         var storageData = await distributedCache.GetStringAsync(email);
@@ -43,20 +45,21 @@ public class AuthService(
 
             return new SendCodeResponse
             {
-                Repeat = 120,
+                Repeat = _appSettings.TimeExpireCode,
                 Result = false
             };
         }
 
         await distributedCache.SetStringAsync(email, code, new DistributedCacheEntryOptions
         {
-            AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(120)
+            AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(_appSettings.TimeExpireCode)
         });
+
         sendMailService.Send(email, "Registration", $"Temporary password: <b>{code}</b>");
 
         return new SendCodeResponse
         {
-            Repeat = 120,
+            Repeat = _appSettings.TimeExpireCode,
             Result = true
         };
     }
@@ -139,7 +142,7 @@ public class AuthService(
                     throw new AppException("Invalid one or more tokens");
                 }
 
-                user = context.Users.AsEnumerable().SingleOrDefault(x =>
+                user = context.Users.AsEnumerable().FirstOrDefault(x =>
                     string.Equals(x.Email, model.Email, StringComparison.CurrentCultureIgnoreCase) ||
                     string.Equals(x.Phone, model.Phone, StringComparison.InvariantCultureIgnoreCase));
 
@@ -339,6 +342,40 @@ public class AuthService(
         return user;
     }
 
+    public void ForgetPassword(ForgetPasswordRequest model)
+    {
+        User? user = null;
+
+        if (Normalize.CheckEmail(model.Username))
+        {
+            user = userService.GetByEmail(Normalize.Email(model.Username));
+        }
+        else if (Normalize.CheckPhone(model.Username))
+        {
+            user = userService.GetByPhone(Normalize.Phone(model.Username));
+        }
+
+        if (user == null)
+        {
+            throw new AppException("User not found");
+        }
+
+        if (user.PasswordHash == null)
+        {
+            throw new AppException("Access denied");
+        }
+
+        var tokenData = jwtUtils.ValidateJwtData(model.Token);
+        if (tokenData == null || (tokenData != user.Email && tokenData != user.Phone))
+        {
+            throw new AppException("Invalid token");
+        }
+
+        user.PasswordHash = Encryption.GetHash(model.NewPassword, user.Salt);
+        context.Update(user);
+        context.SaveChanges();
+    }
+
     public AuthenticateResponse RefreshToken(string? token, string ipAddress)
     {
         var user = GetUserByRefreshToken(token);
@@ -366,29 +403,6 @@ public class AuthService(
         var jwtToken = jwtUtils.GenerateJwtUser(user);
 
         return new AuthenticateResponse(user, jwtToken, newRefreshToken.Token);
-    }
-
-    public void ForgetPassword(ForgetPasswordRequest model)
-    {
-        var user = context.Users.AsEnumerable().SingleOrDefault(x =>
-            string.Equals(x.Email, model.Email, StringComparison.CurrentCultureIgnoreCase));
-        if (user == null)
-            throw new AppException("User not found");
-
-        var tempPass = new Encryption().GetRandomPassword(6);
-
-        try
-        {
-            sendMailService.Send(model.Email, "Recovery password", $"Temporary password: <b>{tempPass}</b>");
-
-            user.PasswordHash = Encryption.GetHash(tempPass, user.Salt);
-            context.Update(user);
-            context.SaveChanges();
-        }
-        catch (SmtpException)
-        {
-            throw new AppException("Sorry, something went wrong. Please try again later.");
-        }
     }
 
     public void RevokeToken(string token, string? ipAddress)

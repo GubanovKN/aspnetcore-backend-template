@@ -15,6 +15,10 @@ public class SendPhoneService(IOptions<AppSettings> appSettings) : ISendPhoneSer
 
     public void Send(string phone, string text)
     {
-        Console.WriteLine($"{phone} - {text}");
+        if (Constants.IsDevelopmentEnviroment())
+        {
+            Console.WriteLine($"Send phone: {phone} - {text}");
+            return;
+        }
     }
 }

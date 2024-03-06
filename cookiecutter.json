@@ -6,6 +6,7 @@
   "appSettings_development": {
     "secret": "test",
     "refreshTokenTTL": 2,
+    "timeExpireCode": 120,
     "serverMail": {
       "host": "smtp.mail.com",
       "port": 465,
@@ -30,6 +31,7 @@
   "appSettings_production": {
     "secret": "{{ cookiecutter.appSettings_development.secret }}",
     "refreshTokenTTL": "{{ cookiecutter.appSettings_development.refreshTokenTTL }}",
+    "timeExpireCode": "{{ cookiecutter.appSettings_development.timeExpireCode }}",
     "serverMail": {
       "host": "{{ cookiecutter.appSettings_development.serverMail.host }}",
       "port": "{{ cookiecutter.appSettings_development.serverMail.port }}",

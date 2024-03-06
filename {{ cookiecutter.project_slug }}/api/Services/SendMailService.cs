@@ -17,6 +17,12 @@ public class SendMailService(IOptions<AppSettings> appSettings) : ISendMailServi
     {
         try
         {
+            if (Constants.IsDevelopmentEnviroment())
+            {
+                Console.WriteLine($"Send email: {email} - {subject} - {body}");
+                return;
+            }
+            
             var mySmtpClient = new SmtpClient(_appSettings.ServerMail.Host, _appSettings.ServerMail.Port);
             mySmtpClient.EnableSsl = _appSettings.ServerMail.SSL;
 

@@ -1,4 +1,5 @@
 using api.Authorization;
+using api.Entities;
 using api.Models.OAuth;
 using api.Models.Users;
 using api.Services;
@@ -76,6 +77,14 @@ public class UsersController(IAuthService authService, IOAuthService oAuthServic
     }
 
     [AllowAnonymous]
+    [HttpPost("forget-password")]
+    public IActionResult ForgetPassword(ForgetPasswordRequest model)
+    {
+        authService.ForgetPassword(model);
+        return Ok();
+    }
+
+    [AllowAnonymous]
     [HttpPost("refresh-token")]
     public IActionResult RefreshToken()
     {
@@ -85,24 +94,14 @@ public class UsersController(IAuthService authService, IOAuthService oAuthServic
         return Ok(response);
     }
 
-    [AllowAnonymous]
-    [HttpPost("forget-password")]
-    public IActionResult ForgetPassword(ForgetPasswordRequest model)
+    [HttpGet("refresh-tokens")]
+    public IActionResult RefreshTokens()
     {
-        if (string.IsNullOrWhiteSpace(model.Email))
+        if (HttpContext.Items["User"] is not User user)
         {
-            return BadRequest(new { message = "Не заполнен Email" });
+            return Unauthorized();
         }
-
-        authService.ForgetPassword(model);
-
-        return Ok();
-    }
-
-    [HttpGet("{id}/refresh-tokens")]
-    public IActionResult GetRefreshTokens(Guid id)
-    {
-        var user = userService.GetById(id);
+        
         return Ok(user.RefreshTokens);
     }
 
@@ -122,7 +121,28 @@ public class UsersController(IAuthService authService, IOAuthService oAuthServic
 
     #region Users
 
+    [HttpGet("me")]
+    public IActionResult Me()
+    {
+        if (HttpContext.Items["User"] is not User user)
+        {
+            return Unauthorized();
+        }
+
+        return Ok(new GetByIdResponse
+        {
+            Id = user.Id,
+            LastName = user.LastName,
+            FirstName = user.FirstName,
+            MiddleName = user.MiddleName,
+            Email = user.Email,
+            Roles = user.UserRoles.Select(p => p.Role).ToList(),
+            IsDismissed = user.IsDismissed
+        });
+    }
+
     [HttpGet("{id}")]
+    [Authorize(Roles = "Admin")]
     public IActionResult GetById(Guid id)
     {
         var user = userService.GetById(id);
@@ -140,7 +160,7 @@ public class UsersController(IAuthService authService, IOAuthService oAuthServic
     }
 
     [HttpGet("all")]
-    [Authorize(Roles = "Админ")]
+    [Authorize(Roles = "Admin")]
     public IActionResult GetAll()
     {
         var users = userService.GetAll();
@@ -148,7 +168,7 @@ public class UsersController(IAuthService authService, IOAuthService oAuthServic
     }
 
     [HttpPost("add")]
-    [Authorize(Roles = "Админ")]
+    [Authorize(Roles = "Admin")]
     public IActionResult Add(AddRequest model)
     {
         if (string.IsNullOrWhiteSpace(model.LastName))
@@ -187,7 +207,7 @@ public class UsersController(IAuthService authService, IOAuthService oAuthServic
     }
 
     [HttpPost("edit")]
-    [Authorize(Roles = "Админ")]
+    [Authorize(Roles = "Admin")]
     public IActionResult Edit(EditRequest model)
     {
         if (string.IsNullOrWhiteSpace(model.LastName))

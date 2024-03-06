@@ -47,7 +47,7 @@ app.UseRouting();
 app.UseMiddleware<ErrorHandlerMiddleware>();
 app.UseMiddleware<JwtMiddleware>();
 
-if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Owner"))
+if (Constants.IsDevelopmentEnviroment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();

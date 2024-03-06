@@ -4,6 +4,7 @@ public class AppSettings
 {
     public string Secret { get; set; } = string.Empty;
     public int RefreshTokenTTL { get; set; }
+    public int TimeExpireCode { get; set; }
     public ServerMailSettings ServerMail { get; set; } = new();
     public OAuthSettings OAuth { get; set; } = new();
 }
