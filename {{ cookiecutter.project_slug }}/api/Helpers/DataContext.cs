@@ -8,6 +8,7 @@ public sealed class DataContext : DbContext
     private readonly string? _connectionString;
     
     public DbSet<User> Users { get; set; } = null!;
+    public DbSet<OAuth> OAuths { get; set; } = null!;
     public DbSet<RefreshToken> RefreshTokens { get; set; } = null!;
     public DbSet<Role> Roles { get; set; } = null!;
     public DbSet<UserRole> UserRoles { get; set; } = null!;

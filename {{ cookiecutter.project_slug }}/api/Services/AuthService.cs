@@ -32,11 +32,9 @@ public class AuthService(
 {
     private readonly AppSettings _appSettings = appSettings.Value;
 
-    private const string regexPhone = @"^([\+]?[1-9]{1})[1-9][0-9]{9}$";
-
     public async Task<SendCodeResponse> SendCodeByEmail(string email)
     {
-        email = EmailNormalize(email);
+        email = Normalize.Email(email);
         var code = new Encryption().GetRandomPassword(6);
         var storageData = await distributedCache.GetStringAsync(email);
         if (storageData != null)
@@ -65,7 +63,7 @@ public class AuthService(
 
     public async Task<SendCodeResponse> SendCodeByPhone(string phone)
     {
-        phone = PhoneNormalize(phone);
+        phone = Normalize.Phone(phone);
         var code = new Encryption().GetRandomPassword(6);
         var storageData = await distributedCache.GetStringAsync(phone);
         if (storageData != null)
@@ -94,13 +92,13 @@ public class AuthService(
 
     public async Task<string> CheckCode(string key, string code)
     {
-        if (CheckPhone(key))
+        if (Normalize.CheckPhone(key))
         {
-            key = PhoneNormalize(key);
+            key = Normalize.Phone(key);
         }
-        else if (CheckEmail(key))
+        else if (Normalize.CheckEmail(key))
         {
-            key = EmailNormalize(key);
+            key = Normalize.Email(key);
         }
         else
         {
@@ -133,8 +131,8 @@ public class AuthService(
                     throw new AppException("Email and phone are required");
                 }
 
-                model.Phone = PhoneNormalize(model.Phone);
-                model.Email = EmailNormalize(model.Email);
+                model.Phone = Normalize.Phone(model.Phone);
+                model.Email = Normalize.Email(model.Email);
 
                 if (model.Email != emailTokenData || model.Phone != phoneTokenData)
                 {
@@ -152,7 +150,7 @@ public class AuthService(
                     throw new AppException("Email are required");
                 }
 
-                model.Email = EmailNormalize(model.Email);
+                model.Email = Normalize.Email(model.Email);
 
                 if (model.Email != emailTokenData)
                 {
@@ -171,7 +169,7 @@ public class AuthService(
                     throw new AppException("Phone are required");
                 }
 
-                model.Phone = PhoneNormalize(model.Phone);
+                model.Phone = Normalize.Phone(model.Phone);
 
                 if (model.Phone != phoneTokenData)
                 {
@@ -261,13 +259,13 @@ public class AuthService(
     {
         User? user = null;
 
-        if (CheckEmail(username))
+        if (Normalize.CheckEmail(username))
         {
-            user = userService.GetByEmail(EmailNormalize(username));
+            user = userService.GetByEmail(Normalize.Email(username));
         }
-        else if (CheckPhone(username))
+        else if (Normalize.CheckPhone(username))
         {
-            user = userService.GetByPhone(PhoneNormalize(username));
+            user = userService.GetByPhone(Normalize.Phone(username));
         }
 
         if (user == null)
@@ -305,13 +303,13 @@ public class AuthService(
     {
         User? user = null;
 
-        if (CheckEmail(username))
+        if (Normalize.CheckEmail(username))
         {
-            user = userService.GetByEmail(EmailNormalize(username));
+            user = userService.GetByEmail(Normalize.Email(username));
         }
-        else if (CheckPhone(username))
+        else if (Normalize.CheckPhone(username))
         {
-            user = userService.GetByPhone(PhoneNormalize(username));
+            user = userService.GetByPhone(Normalize.Phone(username));
         }
 
         if (user == null)
@@ -453,54 +451,5 @@ public class AuthService(
         token.RevokedByIp = ipAddress;
         token.ReasonRevoked = reason;
         token.ReplacedByToken = replacedByToken;
-    }
-
-    private string EmailNormalize(string email)
-    {
-        if (!CheckEmail(email))
-        {
-            throw new AppException("Invalid email");
-        }
-
-        return email.ToLower();
-    }
-
-    private bool CheckEmail(string email)
-    {
-        var trimmedEmail = email.Trim();
-
-        if (trimmedEmail.EndsWith('.'))
-        {
-            return false;
-        }
-
-        try
-        {
-            var addr = new MailAddress(email);
-            return addr.Address == trimmedEmail;
-        }
-        catch
-        {
-            return false;
-        }
-    }
-
-    private string PhoneNormalize(string phone)
-    {
-        if (!CheckPhone(phone))
-        {
-            throw new AppException("Invalid phone");
-        }
-
-        var regex = new Regex(@"[^\d]");
-        phone = regex.Replace(phone, "");
-        const string format = "#-###-###-####";
-        phone = Convert.ToInt64(phone).ToString(format);
-        return phone;
-    }
-
-    private bool CheckPhone(string phone)
-    {
-        return !string.IsNullOrEmpty(phone) && Regex.IsMatch(phone, regexPhone);
     }
 }

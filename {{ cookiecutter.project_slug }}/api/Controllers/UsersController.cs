@@ -1,5 +1,5 @@
 using api.Authorization;
-using api.Entities;
+using api.Models.OAuth;
 using api.Models.Users;
 using api.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +9,8 @@ namespace api.Controllers;
 [Authorize]
 [ApiController]
 [Route("[controller]")]
-public class UsersController(IAuthService authService, IUserService userService) : ControllerBase
+public class UsersController(IAuthService authService, IOAuthService oAuthService, IUserService userService)
+    : ControllerBase
 {
     #region Auth
 
@@ -25,7 +26,6 @@ public class UsersController(IAuthService authService, IUserService userService)
     [HttpPost("sendcodebyphone")]
     public async Task<IActionResult> SendCodeByPhone(SendCodeRequest model)
     {
-        
         var result = await authService.SendCodeByPhone(model.Value);
         return Ok(result);
     }
@@ -62,6 +62,15 @@ public class UsersController(IAuthService authService, IUserService userService)
     public IActionResult Authenticate(AuthenticateRequest model)
     {
         var response = authService.Authenticate(model, IpAddress());
+        SetTokenCookie(response.RefreshToken);
+        return Ok(response);
+    }
+
+    [AllowAnonymous]
+    [HttpPost("authenticate-google")]
+    public async Task<IActionResult> AuthenticateGoogle(GoogleRequest model)
+    {
+        var response = await oAuthService.GoogleAsync(model, IpAddress());
         SetTokenCookie(response.RefreshToken);
         return Ok(response);
     }

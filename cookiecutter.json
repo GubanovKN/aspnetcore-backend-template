@@ -14,6 +14,13 @@
       "password": "password",
       "email": "username@mail.com",
       "name": "Sender"
+    },
+    "oauth": {
+      "google": {
+        "clientId": "test",
+        "clientSecret": "test",
+        "redirectURL": "http://localhost"
+      }
     }
   },
   "connectionStrings_development": {
@@ -31,6 +38,13 @@
       "password": "{{ cookiecutter.appSettings_development.serverMail.password }}",
       "email": "{{ cookiecutter.appSettings_development.serverMail.email }}",
       "name": "{{ cookiecutter.appSettings_development.serverMail.name }}"
+    },
+    "oauth": {
+      "google": {
+        "clientId": "{{ cookiecutter.appSettings_development.oauth.google.clientId }}",
+        "clientSecret": "{{ cookiecutter.appSettings_development.oauth.google.clientSecret }}",
+        "redirectURL": "{{ cookiecutter.appSettings_development.oauth.google.redirectURL }}"
+      }
     }
   },
   "connectionStrings_production": {
