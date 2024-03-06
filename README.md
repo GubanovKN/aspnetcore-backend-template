@@ -1,12 +1,12 @@
 # ASP .NET Core Backend Template
 <span style="color:red">WARNING: Template in development</span>
 ## Current tasks
-- [+] Confirm email
-- [+] Confirm phone
-- [+] Login by phone with code
-- [+] Login by email with code
-- [+] Login by email with password
-- [+] OAuth
+- [x] Confirm email
+- [x] Confirm phone
+- [x] Login by phone with code
+- [x] Login by email with code
+- [x] Login by email with password
+- [x] OAuth
 - [ ] Forgot Password
 - [ ] Tests
 
@@ -84,4 +84,4 @@ networks:
   2. Open in browser this file and click button "Sign in with Google"
   3. After login in Google you will redirect in config page with more get params
   4. Then copy "code" parameter and paste in swagger body request users/authenticate-google
-  Parameter "code" maybe in URL Encode, should decode before paste in body request
+#### Parameter "code" maybe in URL Encode, should decode before paste in body request
