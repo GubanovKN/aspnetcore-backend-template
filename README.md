@@ -1,12 +1,14 @@
 # ASP .NET Core Backend Template
 <span style="color:red">WARNING: Template in development</span>
 ## Current tasks
-- [ ] Confirm email
-- [ ] Confirm phone
-- [ ] Login by phone with code
-- [ ] Login by email with code
-- [ ] Login by email with password
-- [ ] OAuth
+- [+] Confirm email
+- [+] Confirm phone
+- [+] Login by phone with code
+- [+] Login by email with code
+- [+] Login by email with password
+- [+] OAuth
+- [ ] Forgot Password
+- [ ] Tests
 
 Additional tasks will be added in the future
 
@@ -77,3 +79,9 @@ networks:
 ### Connection strings
   - PostgreSQL "Host={host};Port={port};Database={name_db};Username={user_name};Password={user_pass}"
   - Redis "{host}:{port},password={pass},DefaultDatabase={db_number}" or "redis://{user_name}:{user_pass}@{host}:{port}/{db_number}" (Default user - default)
+## Google OAuth
+  1. When you configure solution, in main path exist file check-oauth.html
+  2. Open in browser this file and click button "Sign in with Google"
+  3. After login in Google you will redirect in config page with more get params
+  4. Then copy "code" parameter and paste in swagger body request users/authenticate-google
+  Parameter "code" maybe in URL Encode, should decode before paste in body request
