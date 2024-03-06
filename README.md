@@ -7,8 +7,9 @@
 - [x] Login by email with code
 - [x] Login by email with password
 - [x] OAuth
-- [ ] Forgot Password
-- [ ] Tests
+- [x] Forgot Password
+- [x] Tests
+- [ ] Get time expire key in cache
 
 Additional tasks will be added in the future
 
@@ -85,3 +86,5 @@ networks:
   3. After login in Google you will redirect in config page with more get params
   4. Then copy "code" parameter and paste in swagger body request users/authenticate-google
 #### Parameter "code" maybe in URL Encode, should decode before paste in body request
+## Tests
+  Repos has file api.postman_collection.json, import this file to Postman for test routes
