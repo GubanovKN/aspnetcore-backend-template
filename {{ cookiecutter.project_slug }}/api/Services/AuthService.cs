@@ -41,8 +41,6 @@ public class AuthService(
         var storageData = await distributedCache.GetStringAsync(email);
         if (storageData != null)
         {
-            await distributedCache.RefreshAsync(email);
-
             return new SendCodeResponse
             {
                 Repeat = _appSettings.TimeExpireCode,
@@ -52,7 +50,7 @@ public class AuthService(
 
         await distributedCache.SetStringAsync(email, code, new DistributedCacheEntryOptions
         {
-            AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(_appSettings.TimeExpireCode)
+            SlidingExpiration = TimeSpan.FromSeconds(_appSettings.TimeExpireCode)
         });
 
         sendMailService.Send(email, "Registration", $"Temporary password: <b>{code}</b>");
@@ -71,24 +69,22 @@ public class AuthService(
         var storageData = await distributedCache.GetStringAsync(phone);
         if (storageData != null)
         {
-            await distributedCache.RefreshAsync(phone);
-
             return new SendCodeResponse
             {
-                Repeat = 120,
+                Repeat = _appSettings.TimeExpireCode,
                 Result = false
             };
         }
 
         await distributedCache.SetStringAsync(phone, code, new DistributedCacheEntryOptions
         {
-            AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(120)
+            SlidingExpiration = TimeSpan.FromSeconds(_appSettings.TimeExpireCode)
         });
         sendPhoneService.Send(phone, $"Temporary password: {code}");
 
         return new SendCodeResponse
         {
-            Repeat = 120,
+            Repeat = _appSettings.TimeExpireCode,
             Result = true
         };
     }
