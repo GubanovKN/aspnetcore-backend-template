@@ -9,9 +9,14 @@
 - [x] OAuth
 - [x] Forgot Password
 - [x] Tests
-- [ ] Get time expire key in cache
+- [x] Refresh time expire key in cache
+- [ ] Change user info
 
 Additional tasks will be added in the future
+
+## Setup
+Use cookiecutter for first config
+```cookiecutter https://github.com/GubanovKN/aspnetcore-backend-template.git```
 
 ## Docker compose depends
 ```
@@ -88,3 +93,7 @@ networks:
 #### Parameter "code" maybe in URL Encode, should decode before paste in body request
 ## Tests
   Repos has file api.postman_collection.json, import this file to Postman for test routes
+## Docker build
+  Integrate image in {project_name}/api/Dockerfile in your docker compose
+  Also you can build image
+  ```docker build -t {image_name} "./{project_name}/api"```
