@@ -94,6 +94,6 @@ networks:
 ## Tests
   Repos has file api.postman_collection.json, import this file to Postman for test routes
 ## Docker build
-  Integrate image in {project_name}/api/Dockerfile in your docker compose
-  Also you can build image
+  - Integrate image in {project_name}/api/Dockerfile in your docker compose
+  - Also you can build image
   ```docker build -t {image_name} "./{project_name}/api"```
