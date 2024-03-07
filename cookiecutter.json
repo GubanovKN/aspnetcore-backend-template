@@ -1,0 +1,56 @@
+{
+  "project_slug": "aspnetcore-backend-template",
+  "project_name": "{{ cookiecutter.project_slug }}",
+  "development_port": "5210",
+  "production_port": "7114",
+  "appSettings_development": {
+    "secret": "test",
+    "refreshTokenTTL": 2,
+    "timeExpireCode": 120,
+    "serverMail": {
+      "host": "smtp.mail.com",
+      "port": 465,
+      "ssl": true,
+      "login": "username",
+      "password": "password",
+      "email": "username@mail.com",
+      "name": "Sender"
+    },
+    "oauth": {
+      "google": {
+        "clientId": "test",
+        "clientSecret": "test",
+        "redirectURL": "http://localhost"
+      }
+    }
+  },
+  "connectionStrings_development": {
+    "defaultConnection": "Host=localhost;Port=5432;Database={{ cookiecutter.project_slug }}_db;Username=root;Password=root",
+    "redisConnection": "localhost:6379,password=root,DefaultDatabase=0"
+  },
+  "appSettings_production": {
+    "secret": "{{ cookiecutter.appSettings_development.secret }}",
+    "refreshTokenTTL": "{{ cookiecutter.appSettings_development.refreshTokenTTL }}",
+    "timeExpireCode": "{{ cookiecutter.appSettings_development.timeExpireCode }}",
+    "serverMail": {
+      "host": "{{ cookiecutter.appSettings_development.serverMail.host }}",
+      "port": "{{ cookiecutter.appSettings_development.serverMail.port }}",
+      "ssl": "{{ cookiecutter.appSettings_development.serverMail.ssl }}",
+      "login": "{{ cookiecutter.appSettings_development.serverMail.login }}",
+      "password": "{{ cookiecutter.appSettings_development.serverMail.password }}",
+      "email": "{{ cookiecutter.appSettings_development.serverMail.email }}",
+      "name": "{{ cookiecutter.appSettings_development.serverMail.name }}"
+    },
+    "oauth": {
+      "google": {
+        "clientId": "{{ cookiecutter.appSettings_development.oauth.google.clientId }}",
+        "clientSecret": "{{ cookiecutter.appSettings_development.oauth.google.clientSecret }}",
+        "redirectURL": "{{ cookiecutter.appSettings_development.oauth.google.redirectURL }}"
+      }
+    }
+  },
+  "connectionStrings_production": {
+    "defaultConnection": "{{ cookiecutter.connectionStrings_development.defaultConnection }}",
+    "redisConnection": "{{ cookiecutter.connectionStrings_development.redisConnection }}"
+  }
+}

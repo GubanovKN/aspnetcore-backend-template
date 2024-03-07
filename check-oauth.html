@@ -1,0 +1,38 @@
+<html>
+  <head></head>
+  <body>
+    <script>
+      function oauthSignInCode() {
+        var oauth2Endpoint = "https://accounts.google.com/o/oauth2/v2/auth";
+
+        var form = document.createElement("form");
+        form.setAttribute("method", "GET");
+        form.setAttribute("action", oauth2Endpoint);
+
+        var params = {
+          client_id:
+            "{{ cookiecutter.appSettings_development.oauth.google.clientId }}",
+          access_type: "offline",
+          redirect_uri: "{{ cookiecutter.appSettings_development.oauth.google.redirectURL }}",
+          response_type: "code",
+          scope: "openid email profile",
+          state: "pass-through value",
+          nonce: "630eb68f-e0fa-5ecc-887a-7c7a62614681",
+        };
+
+        for (var p in params) {
+          var input = document.createElement("input");
+          input.setAttribute("type", "hidden");
+          input.setAttribute("name", p);
+          input.setAttribute("value", params[p]);
+          form.appendChild(input);
+        }
+
+        document.body.appendChild(form);
+        form.submit();
+      }
+    </script>
+
+    <button onclick="oauthSignInCode()">Sign in with Google</button>
+  </body>
+</html>
