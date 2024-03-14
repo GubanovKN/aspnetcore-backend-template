@@ -414,7 +414,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								},
 								{
@@ -423,10 +424,11 @@
 										"exec": [
 											"let body = pm.response.json();",
 											"console.log(body);",
-											"pm.environment.set(\"accessToken\", body.token);",
-											"pm.environment.set(\"refreshToken\", pm.cookies.get('refreshToken'))"
+											"pm.environment.set(\"accessToken\", body.accessToken);",
+											"pm.environment.set(\"refreshToken\", body.refreshToken);"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -440,7 +442,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"type\": \"all\",\n  \"lastName\": \"{{$randomLastName}}\",\n  \"firstName\": \"{{$randomFirstName}}\",\n  \"middleName\": \"{{$randomFirstName}}\",\n  \"email\": \"{{email}}\",\n  \"emailToken\": \"{{emailToken}}\",\n  \"phone\": \"{{phone}}\",\n  \"phoneToken\": \"{{phoneToken}}\",\n  \"password\": \"{{password}}\"\n}",
+									"raw": "{\n  \"type\": \"all\",\n  \"lastName\": \"{{$randomLastName}}\",\n  \"firstName\": \"{{$randomFirstName}}\",\n  \"middleName\": \"{{$randomFirstName}}\",\n  \"sex\": 0,\n  \"email\": \"{{email}}\",\n  \"emailToken\": \"{{emailToken}}\",\n  \"phone\": \"{{phone}}\",\n  \"phoneToken\": \"{{phoneToken}}\",\n  \"password\": \"{{password}}\"\n}",
 									"options": {
 										"raw": {
 											"headerFamily": "json",
@@ -509,10 +511,11 @@
 										"exec": [
 											"let body = pm.response.json();",
 											"console.log(body);",
-											"pm.environment.set(\"accessToken\", body.token);",
-											"pm.environment.set(\"refreshToken\", pm.cookies.get('refreshToken'))"
+											"pm.environment.set(\"accessToken\", body.accessToken);",
+											"pm.environment.set(\"refreshToken\", body.refreshToken);"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -526,7 +529,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"type\": \"all\",\n  \"lastName\": \"{{$randomLastName}}\",\n  \"firstName\": \"{{$randomFirstName}}\",\n  \"middleName\": \"{{$randomFirstName}}\",\n  \"email\": \"{{email}}\",\n  \"emailToken\": \"{{emailToken}}\",\n  \"phone\": \"{{phone}}\",\n  \"phoneToken\": \"{{phoneToken}}\",\n  \"password\": \"{{password}}\"\n}",
+									"raw": "{\n  \"type\": \"all\",\n  \"lastName\": \"{{$randomLastName}}\",\n  \"firstName\": \"{{$randomFirstName}}\",\n  \"middleName\": \"{{$randomFirstName}}\",\n  \"sex\": 0,\n  \"email\": \"{{email}}\",\n  \"emailToken\": \"{{emailToken}}\",\n  \"phone\": \"{{phone}}\",\n  \"phoneToken\": \"{{phoneToken}}\",\n  \"password\": \"{{password}}\"\n}",
 									"options": {
 										"raw": {
 											"headerFamily": "json",
@@ -600,7 +603,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								},
 								{
@@ -609,10 +613,11 @@
 										"exec": [
 											"let body = pm.response.json();",
 											"console.log(body);",
-											"pm.environment.set(\"accessToken\", body.token);",
-											"pm.environment.set(\"refreshToken\", pm.cookies.get('refreshToken'))"
+											"pm.environment.set(\"accessToken\", body.accessToken);",
+											"pm.environment.set(\"refreshToken\", body.refreshToken);"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -626,7 +631,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"type\": \"email\",\n    \"lastName\": \"{{$randomLastName}}\",\n    \"firstName\": \"{{$randomFirstName}}\",\n    \"middleName\": \"{{$randomFirstName}}\",\n    \"email\": \"{{email}}\",\n    \"emailToken\": \"{{emailToken}}\"\n}",
+									"raw": "{\n    \"type\": \"email\",\n    \"lastName\": \"{{$randomLastName}}\",\n    \"firstName\": \"{{$randomFirstName}}\",\n    \"middleName\": \"{{$randomFirstName}}\",\n    \"sex\": 0,\n    \"email\": \"{{email}}\",\n    \"emailToken\": \"{{emailToken}}\"\n}",
 									"options": {
 										"raw": {
 											"headerFamily": "json",
@@ -695,10 +700,11 @@
 										"exec": [
 											"let body = pm.response.json();",
 											"console.log(body);",
-											"pm.environment.set(\"accessToken\", body.token);",
-											"pm.environment.set(\"refreshToken\", pm.cookies.get('refreshToken'))"
+											"pm.environment.set(\"accessToken\", body.accessToken);",
+											"pm.environment.set(\"refreshToken\", body.refreshToken);"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -712,7 +718,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"type\": \"email\",\n  \"lastName\": \"{{$randomLastName}}\",\n  \"firstName\": \"{{$randomFirstName}}\",\n  \"middleName\": \"{{$randomFirstName}}\",\n  \"email\": \"{{email}}\",\n  \"emailToken\": \"{{emailToken}}\",\n  \"password\": \"{{password}}\"\n}",
+									"raw": "{\n  \"type\": \"email\",\n  \"lastName\": \"{{$randomLastName}}\",\n  \"firstName\": \"{{$randomFirstName}}\",\n  \"middleName\": \"{{$randomFirstName}}\",\n  \"sex\": 0,\n  \"email\": \"{{email}}\",\n  \"emailToken\": \"{{emailToken}}\",\n  \"password\": \"{{password}}\"\n}",
 									"options": {
 										"raw": {
 											"headerFamily": "json",
@@ -786,7 +792,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								},
 								{
@@ -795,10 +802,11 @@
 										"exec": [
 											"let body = pm.response.json();",
 											"console.log(body);",
-											"pm.environment.set(\"accessToken\", body.token);",
-											"pm.environment.set(\"refreshToken\", pm.cookies.get('refreshToken'))"
+											"pm.environment.set(\"accessToken\", body.accessToken);",
+											"pm.environment.set(\"refreshToken\", body.refreshToken);"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -812,7 +820,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"type\": \"phone\",\n  \"lastName\": \"{{$randomLastName}}\",\n  \"firstName\": \"{{$randomFirstName}}\",\n  \"middleName\": \"{{$randomFirstName}}\",\n  \"phone\": \"{{phone}}\",\n  \"phoneToken\": \"{{phoneToken}}\"\n}",
+									"raw": "{\n  \"type\": \"phone\",\n  \"lastName\": \"{{$randomLastName}}\",\n  \"firstName\": \"{{$randomFirstName}}\",\n  \"middleName\": \"{{$randomFirstName}}\",\n  \"sex\": 0,\n  \"phone\": \"{{phone}}\",\n  \"phoneToken\": \"{{phoneToken}}\"\n}",
 									"options": {
 										"raw": {
 											"headerFamily": "json",
@@ -881,7 +889,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								},
 								{
@@ -890,10 +899,11 @@
 										"exec": [
 											"let body = pm.response.json();",
 											"console.log(body);",
-											"pm.environment.set(\"accessToken\", body.token);",
-											"pm.environment.set(\"refreshToken\", pm.cookies.get('refreshToken'))"
+											"pm.environment.set(\"accessToken\", body.accessToken);",
+											"pm.environment.set(\"refreshToken\", body.refreshToken);"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -907,7 +917,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"type\": \"phone\",\n  \"lastName\": \"{{$randomLastName}}\",\n  \"firstName\": \"{{$randomFirstName}}\",\n  \"middleName\": \"{{$randomFirstName}}\",\n  \"phone\": \"{{phone}}\",\n  \"phoneToken\": \"{{phoneToken}}\",\n  \"password\": \"{{password}}\"\n}",
+									"raw": "{\n  \"type\": \"phone\",\n  \"lastName\": \"{{$randomLastName}}\",\n  \"firstName\": \"{{$randomFirstName}}\",\n  \"middleName\": \"{{$randomFirstName}}\",\n  \"sex\": 0,\n  \"phone\": \"{{phone}}\",\n  \"phoneToken\": \"{{phoneToken}}\",\n  \"password\": \"{{password}}\"\n}",
 									"options": {
 										"raw": {
 											"headerFamily": "json",
@@ -981,10 +991,11 @@
 										"exec": [
 											"let body = pm.response.json();",
 											"console.log(body);",
-											"pm.environment.set(\"accessToken\", body.token);",
-											"pm.environment.set(\"refreshToken\", pm.cookies.get('refreshToken'))"
+											"pm.environment.set(\"accessToken\", body.accessToken);",
+											"pm.environment.set(\"refreshToken\", body.refreshToken);"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1067,10 +1078,11 @@
 										"exec": [
 											"let body = pm.response.json();",
 											"console.log(body);",
-											"pm.environment.set(\"accessToken\", body.token);",
-											"pm.environment.set(\"refreshToken\", pm.cookies.get('refreshToken'))"
+											"pm.environment.set(\"accessToken\", body.accessToken);",
+											"pm.environment.set(\"refreshToken\", body.refreshToken);"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1158,10 +1170,11 @@
 										"exec": [
 											"let body = pm.response.json();",
 											"console.log(body);",
-											"pm.environment.set(\"accessToken\", body.token);",
-											"pm.environment.set(\"refreshToken\", pm.cookies.get('refreshToken'))"
+											"pm.environment.set(\"accessToken\", body.accessToken);",
+											"pm.environment.set(\"refreshToken\", body.refreshToken);"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1244,7 +1257,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								},
 								{
@@ -1253,10 +1267,11 @@
 										"exec": [
 											"let body = pm.response.json();",
 											"console.log(body);",
-											"pm.environment.set(\"accessToken\", body.token);",
-											"pm.environment.set(\"refreshToken\", pm.cookies.get('refreshToken'))"
+											"pm.environment.set(\"accessToken\", body.accessToken);",
+											"pm.environment.set(\"refreshToken\", body.refreshToken);"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1344,10 +1359,11 @@
 										"exec": [
 											"let body = pm.response.json();",
 											"console.log(body);",
-											"pm.environment.set(\"accessToken\", body.token);",
-											"pm.environment.set(\"refreshToken\", pm.cookies.get('refreshToken'))"
+											"pm.environment.set(\"accessToken\", body.accessToken);",
+											"pm.environment.set(\"refreshToken\", body.refreshToken);"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],

@@ -34,8 +34,6 @@ public class AuthService(
 
     public async Task<SendCodeResponse> SendCodeByEmail(string email)
     {
-        //TODO - GET TIME EXPIRE CODE OR REFRESH TIME EXPIRE
-
         email = Normalize.Email(email);
         var code = new Encryption().GetRandomPassword(6);
         var storageData = await distributedCache.GetStringAsync(email);
@@ -91,7 +89,7 @@ public class AuthService(
 
     public async Task<CheckCodeResponse> CheckCode(string key, string code)
     {
-        var type = "none";
+        string type;
         if (Normalize.CheckPhone(key))
         {
             key = Normalize.Phone(key);
@@ -242,7 +240,7 @@ public class AuthService(
         context.RefreshTokens.Add(refreshToken);
         context.SaveChanges();
 
-        return new RegisterResponse(user, jwtToken, refreshToken.Token, role);
+        return new RegisterResponse(result.Entity.Id, jwtToken, refreshToken.Token);
     }
 
     public AuthenticateResponse Authenticate(AuthenticateRequest model, string ipAddress)
@@ -266,7 +264,7 @@ public class AuthService(
         context.Update(user);
         context.SaveChanges();
 
-        return new AuthenticateResponse(user, jwtToken, refreshToken.Token);
+        return new AuthenticateResponse(user.Id, jwtToken, refreshToken.Token);
     }
 
     private User GetUserPassword(string username, string password)
@@ -413,7 +411,7 @@ public class AuthService(
 
         var jwtToken = jwtUtils.GenerateJwtUser(user);
 
-        return new AuthenticateResponse(user, jwtToken, newRefreshToken.Token);
+        return new AuthenticateResponse(user.Id, jwtToken, newRefreshToken.Token);
     }
 
     public void RevokeToken(string token, string? ipAddress)

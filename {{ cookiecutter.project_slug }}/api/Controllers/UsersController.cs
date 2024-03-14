@@ -43,16 +43,6 @@ public class UsersController(IAuthService authService, IOAuthService oAuthServic
     [HttpPost("register")]
     public IActionResult Register(RegisterRequest model)
     {
-        if (string.IsNullOrWhiteSpace(model.LastName))
-        {
-            return BadRequest(new { message = "Не заполнена фамилия" });
-        }
-
-        if (string.IsNullOrWhiteSpace(model.FirstName))
-        {
-            return BadRequest(new { message = "Не заполнено имя" });
-        }
-
         var response = authService.Register(model, IpAddress());
         SetTokenCookie(response.RefreshToken);
         return Ok(response);
