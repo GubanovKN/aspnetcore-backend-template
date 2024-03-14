@@ -13,7 +13,7 @@ public interface IAuthService
 {
     Task<SendCodeResponse> SendCodeByEmail(string email);
     Task<SendCodeResponse> SendCodeByPhone(string phone);
-    Task<string> CheckCode(string key, string code);
+    Task<CheckCodeResponse> CheckCode(string key, string code);
     RegisterResponse Register(RegisterRequest model, string ipAddress);
     AuthenticateResponse Authenticate(AuthenticateRequest model, string ipAddress);
     AuthenticateResponse RefreshToken(string? token, string ipAddress);
@@ -89,15 +89,18 @@ public class AuthService(
         };
     }
 
-    public async Task<string> CheckCode(string key, string code)
+    public async Task<CheckCodeResponse> CheckCode(string key, string code)
     {
+        var type = "none";
         if (Normalize.CheckPhone(key))
         {
             key = Normalize.Phone(key);
+            type = "phone";
         }
         else if (Normalize.CheckEmail(key))
         {
             key = Normalize.Email(key);
+            type = "email";
         }
         else
         {
@@ -112,7 +115,19 @@ public class AuthService(
         }
 
         await distributedCache.RemoveAsync(key);
-        return jwtUtils.GenerateJwtData(key);
+
+        var exist = type switch
+        {
+            "email" => userService.ExistByEmail(key),
+            "phone" => userService.ExistByPhone(key),
+            _ => false
+        };
+        
+        return new CheckCodeResponse
+        {
+            Token = jwtUtils.GenerateJwtData(key),
+            Exist = exist
+        };
     }
 
     public RegisterResponse Register(RegisterRequest model, string ipAddress)

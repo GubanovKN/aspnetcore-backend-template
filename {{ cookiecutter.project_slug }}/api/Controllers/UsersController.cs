@@ -35,8 +35,8 @@ public class UsersController(IAuthService authService, IOAuthService oAuthServic
     [HttpPost("checkcode")]
     public async Task<IActionResult> CheckCode(CheckCodeRequest model)
     {
-        var token = await authService.CheckCode(model.Key, model.Code);
-        return Ok(new { token = token });
+        var result = await authService.CheckCode(model.Key, model.Code);
+        return Ok(result);
     }
 
     [AllowAnonymous]

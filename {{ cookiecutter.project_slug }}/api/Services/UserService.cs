@@ -10,6 +10,8 @@ namespace api.Services;
 
 public interface IUserService
 {
+    bool ExistByEmail(string email);
+    bool ExistByPhone(string phone);
     User GetById(Guid id);
     User GetByEmail(string email);
     User GetByPhone(string phone);
@@ -20,6 +22,16 @@ public interface IUserService
 
 public class UserService(DataContext context) : IUserService
 {
+    public bool ExistByEmail(string email)
+    {
+        return context.Users.Any(p => p.Email == email);
+    }
+
+    public bool ExistByPhone(string phone)
+    {
+        return context.Users.Any(p => p.Phone == phone);
+    }
+
     public User GetById(Guid id)
     {
         var user = context.Users.SingleOrDefault(p => p.Id == id);
@@ -62,6 +74,7 @@ public class UserService(DataContext context) : IUserService
 
         return user;
     }
+
     public User GetByPhone(string phone)
     {
         var user = context.Users.AsEnumerable().SingleOrDefault(p =>
