@@ -125,7 +125,9 @@ public class UsersController(IAuthService authService, IOAuthService oAuthServic
             LastName = user.LastName,
             FirstName = user.FirstName,
             MiddleName = user.MiddleName,
+            Sex = user.Sex,
             Email = user.Email,
+            Phone = user.Phone,
             Roles = user.UserRoles.Select(p => p.Role).ToList(),
             IsDismissed = user.IsDismissed
         });
