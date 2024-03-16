@@ -1,5 +1,6 @@
 # ASP .NET Core Backend Template
-<span style="color:red">WARNING: Template in development</span>
+## What is this
+ This is an API template for a mobile app or website. There are new features in this template when I encounter requests in my projects.
 ## Current tasks
 - [x] Confirm email
 - [x] Confirm phone
@@ -10,14 +11,11 @@
 - [x] Forgot Password
 - [x] Tests
 - [x] Refresh time expire key in cache
+- [x] Get user info
 - [ ] Change user info
-
-Additional tasks will be added in the future
-
 ## Setup
 Use cookiecutter for first config
 ```cookiecutter https://github.com/GubanovKN/aspnetcore-backend-template.git```
-
 ## Docker compose depends
 ```
 version: '3.9'
