@@ -4,16 +4,9 @@ using api.Entities;
 
 namespace api.Models.Users;
 
-public class RegisterResponse(User user, string jwtToken, string refreshToken, Role role)
+public class RegisterResponse(Guid userId, string jwtToken, string refreshToken)
 {
-    public Guid Id { get; set; } = user.Id;
-    public string? FirstName { get; set; } = user.FirstName;
-    public string? LastName { get; set; } = user.LastName;
-    public string? Email { get; set; } = user.Email;
-    public string Token { get; set; } = jwtToken;
-
-    public List<Role> Roles { get; set; } = [role];
-
-    [JsonIgnore]
+    public Guid Id { get; set; } = userId;
+    public string AccessToken { get; set; } = jwtToken;
     public string RefreshToken { get; set; } = refreshToken;
 }

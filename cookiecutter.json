@@ -10,7 +10,7 @@
     "serverMail": {
       "host": "smtp.mail.com",
       "port": 465,
-      "ssl": true,
+      "ssl": "true",
       "login": "username",
       "password": "password",
       "email": "username@mail.com",

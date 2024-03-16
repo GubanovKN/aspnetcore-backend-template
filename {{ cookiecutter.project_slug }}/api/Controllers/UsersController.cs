@@ -35,24 +35,14 @@ public class UsersController(IAuthService authService, IOAuthService oAuthServic
     [HttpPost("checkcode")]
     public async Task<IActionResult> CheckCode(CheckCodeRequest model)
     {
-        var token = await authService.CheckCode(model.Key, model.Code);
-        return Ok(new { token = token });
+        var result = await authService.CheckCode(model.Key, model.Code);
+        return Ok(result);
     }
 
     [AllowAnonymous]
     [HttpPost("register")]
     public IActionResult Register(RegisterRequest model)
     {
-        if (string.IsNullOrWhiteSpace(model.LastName))
-        {
-            return BadRequest(new { message = "Не заполнена фамилия" });
-        }
-
-        if (string.IsNullOrWhiteSpace(model.FirstName))
-        {
-            return BadRequest(new { message = "Не заполнено имя" });
-        }
-
         var response = authService.Register(model, IpAddress());
         SetTokenCookie(response.RefreshToken);
         return Ok(response);
@@ -135,7 +125,9 @@ public class UsersController(IAuthService authService, IOAuthService oAuthServic
             LastName = user.LastName,
             FirstName = user.FirstName,
             MiddleName = user.MiddleName,
+            Sex = user.Sex,
             Email = user.Email,
+            Phone = user.Phone,
             Roles = user.UserRoles.Select(p => p.Role).ToList(),
             IsDismissed = user.IsDismissed
         });
